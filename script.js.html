@@ -1,0 +1,39 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const imageItems = document.querySelectorAll('.image-item');
+    const submitBtn = document.getElementById('submit-btn');
+    const resultText = document.getElementById('result');
+
+    // 允許用戶點擊選擇圖片
+    imageItems.forEach(item => {
+        item.addEventListener('click', function() {
+            item.classList.toggle('selected');
+        });
+    });
+
+    // 當用戶提交驗證時
+    submitBtn.addEventListener('click', function() {
+        const selectedItems = document.querySelectorAll('.image-item.selected');
+        let correctSelection = true;
+
+        selectedItems.forEach(item => {
+            if (item.getAttribute('data-correct') !== 'true') {
+                correctSelection = false;
+            }
+        });
+
+        const totalCorrectImages = document.querySelectorAll('.image-item[data-correct="true"]').length;
+        if (selectedItems.length !== totalCorrectImages) {
+            correctSelection = false;
+        }
+
+        // 顯示結果
+        if (correctSelection) {
+            resultText.textContent = '驗證成功！';
+            resultText.style.color = 'green';
+        } else {
+            resultText.textContent = '驗證失敗，請重試。';
+            resultText.style.color = 'red';
+        }
+    });
+});
+
